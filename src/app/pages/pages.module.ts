@@ -11,6 +11,8 @@ import { ProgressComponent } from './progress/progress.component';
 import { SharedModule } from '../shared/shared.module';
 import { ComponentsModule } from '../components/components.module';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
+import { PromesaComponent } from './promesa/promesa.component';
+import { RxjsComponent } from './rxjs/rxjs.component';
 
 
 @NgModule({
@@ -19,7 +21,9 @@ import { AccountSettingsComponent } from './account-settings/account-settings.co
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
-    AccountSettingsComponent
+    AccountSettingsComponent,
+    PromesaComponent,
+    RxjsComponent
   ],
   exports: [
     DashboardComponent,
