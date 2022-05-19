@@ -7,11 +7,13 @@ import { ProgressComponent } from './progress/progress.component';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesaComponent } from './promesa/promesa.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { AuthGuard } from '../guards/auth.guard';
 
 const routes: Routes = [
     { 
         path: 'dashboard',
         component: PagesComponent, 
+        canActivate: [AuthGuard],
         children: [
           { path: '', component: DashboardComponent, data: { titulo: 'Dasboard'} },
           { path: 'progress', component: ProgressComponent, data: { titulo: 'Barra de progreso'} },
