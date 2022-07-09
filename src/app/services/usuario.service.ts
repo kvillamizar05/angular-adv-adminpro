@@ -33,6 +33,14 @@ export class UsuarioService {
     return this.usuario?.uid || ''
   }
 
+  get headers() {
+    return {
+      headers: {
+        'x-token': this.getToken
+      }
+    }
+  }
+
   logout(){
     localStorage.removeItem('token') 
     this.router.navigateByUrl('/login')
@@ -90,11 +98,7 @@ export class UsuarioService {
 
     data = { ...data, role }
 
-    return this.http.put(`${BASE_URL}/usuarios/${this.uid}`, data, {
-      headers: {
-        'x-token': this.getToken
-      }
-    });
+    return this.http.put(`${BASE_URL}/usuarios/${this.uid}`, data, this.headers);
 
   }
 
@@ -112,5 +116,28 @@ export class UsuarioService {
         localStorage.setItem('token', resp.token)
       })
     )
+  }
+
+  cargarUsuarios( desde:  number = 0 ) {
+    const url = `${BASE_URL}/usuarios?desde=${desde}`
+    return this.http.get<{ total: number, usuarios: Usuario[]}>(url, this.headers).pipe( map( resp => {
+      const usuarios = resp.usuarios.map( user => new Usuario(user.nombre, user.email,'', user.role, user.google, user.img, user.uid));
+
+      return {
+        total: resp.total,
+        usuarios
+      }
+    }))
+  }
+
+  eliminarUsuario(usuario: Usuario) {
+    const url = `${BASE_URL}/usuarios/${usuario.uid}`;
+    return this.http.delete(url, this.headers);
+  }
+
+  guardarUsuario( data: Usuario ){
+
+    return this.http.put(`${BASE_URL}/usuarios/${data.uid}`, data, this.headers);
+
   }
 }
