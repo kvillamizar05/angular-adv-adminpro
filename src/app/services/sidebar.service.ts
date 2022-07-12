@@ -24,7 +24,7 @@ export class SidebarService {
       submenu: [
         { title: 'Usuarios', url: 'usuarios'},
         { title: 'Hospitales', url: 'hospitales'},
-        { title: 'Medico', url: 'medicos'},     
+        { title: 'Medicos', url: 'medicos'},     
 
       ]
     }

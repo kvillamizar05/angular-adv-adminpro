@@ -68,7 +68,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       return
     }
     this.busquedasService.buscar('usuarios', termino).subscribe(resp => {
-      this.usuarios = resp
+      this.usuarios = resp as Usuario[]
     })
   }
 
@@ -79,7 +79,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     }
 
     Swal.fire({
-      title: 'Eliminar usuario?',
+      title: '¿Eliminar usuario?',
       text: `Esta apunto de eliminar al usuario ${usuario.nombre}`,
       icon: 'question',
       showCancelButton: true,
