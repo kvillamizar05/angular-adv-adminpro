@@ -29,6 +29,10 @@ export class UsuarioService {
     return localStorage.getItem('token') || ''
   }
 
+  get role(): 'ADMIN_ROLE' | 'USER_ROLE' {
+    return this.usuario.role ||  'USER_ROLE'
+  }
+
   get uid(): string {
     return this.usuario?.uid || ''
   }
@@ -43,6 +47,7 @@ export class UsuarioService {
 
   logout(){
     localStorage.removeItem('token') 
+    localStorage.removeItem('menu') 
     this.router.navigateByUrl('/login')
 
     // Esto es para cuando arregle el de google
@@ -77,7 +82,8 @@ export class UsuarioService {
       map( (resp: any) => {
         const { email = '', google, nombre, role, uid, img = ''} = resp.usuario
         this.usuario = new Usuario(nombre, email, '', role, google, img, uid)
-        localStorage.setItem('token', resp.token)
+        localStorage.setItem('token', resp.token);
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
         return true
       }),
       catchError( error => of(false))
@@ -88,6 +94,8 @@ export class UsuarioService {
     return this.http.post(`${BASE_URL}/usuarios`, formData).pipe(
       tap( (resp: any) => { 
         localStorage.setItem('token', resp.token)
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
+
       })
     )
   }
@@ -105,7 +113,9 @@ export class UsuarioService {
   login( formData: LoginForm) {
     return this.http.post(`${BASE_URL}/login`, formData).pipe(
       tap( (resp: any) => { 
+        console.log('resp', resp)
         localStorage.setItem('token', resp.token)
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
       })
     )
   }
@@ -114,6 +124,8 @@ export class UsuarioService {
     return this.http.post(`${BASE_URL}/login/google`, { token }).pipe(
       tap( (resp: any) => { 
         localStorage.setItem('token', resp.token)
+        localStorage.setItem('menu', JSON.stringify(resp.menu));
+
       })
     )
   }
